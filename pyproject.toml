@@ -13,6 +13,7 @@ dependencies = [
     "pgvector>=0.3.6,<0.4",
     "psycopg[binary]>=3.3.4",
     "pydantic-settings>=2.15.0",
+    "pyyaml>=6.0.3",
     "sqlalchemy>=2.0.52",
     "sqlmodel>=0.0.39",
     "uvicorn[standard]>=0.52.4",

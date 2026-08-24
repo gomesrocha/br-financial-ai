@@ -1,7 +1,9 @@
 import argparse
 import asyncio
+from pathlib import Path
 
 import httpx
+import yaml
 
 from br_financial_ai.clients.b3 import B3Client
 from br_financial_ai.clients.cvm import CvmClient
@@ -12,6 +14,83 @@ from br_financial_ai.services.exceptions import (
     CvmCompanyNotFoundError,
 )
 from br_financial_ai.services.security_sync import SecuritySyncService
+
+
+def load_bootstrap_config(config_path: str) -> dict:
+    path = Path(config_path)
+
+    if not path.exists():
+        raise FileNotFoundError(f"Configuration file not found: {path}")
+
+    return yaml.safe_load(path.read_text(encoding="utf-8"))
+
+
+async def bootstrap(
+    config_path: str,
+) -> int:
+    try:
+        config = load_bootstrap_config(config_path)
+    except FileNotFoundError as exc:
+        print(f"Error: {exc}")
+        return 1
+
+    companies = config.get("companies", [])
+
+    if not companies:
+        print("Error: no monitored companies configured.")
+        return 1
+
+    headers = {
+        "Accept": "application/json, text/plain, */*",
+        "User-Agent": "Mozilla/5.0",
+        "Referer": "https://sistemaswebb3-listados.b3.com.br/",
+        "Accept-Language": "pt-BR,pt;q=0.9",
+    }
+
+    async with httpx.AsyncClient(
+        timeout=30.0,
+        follow_redirects=True,
+        headers=headers,
+    ) as http_client:
+        cvm_client = CvmClient(http_client)
+        b3_client = B3Client(http_client)
+
+        async with async_session_factory() as session:
+            company_sync_service = CompanySyncService(
+                session=session,
+                cvm_client=cvm_client,
+            )
+
+            security_sync_service = SecuritySyncService(
+                session=session,
+                b3_client=b3_client,
+            )
+
+            for item in companies:
+                cvm_code = str(item["cvm_code"]).strip()
+
+                print(f"Synchronizing CVM company {cvm_code}...")
+
+                try:
+                    company = await company_sync_service.sync_by_cvm_code(cvm_code)
+
+                    securities = await security_sync_service.sync_by_cvm_code(cvm_code)
+
+                except CvmCompanyNotFoundError as exc:
+                    print(f"Error: {exc}")
+                    return 2
+
+                except httpx.HTTPError as exc:
+                    print(f"Error accessing external source: {exc}")
+                    return 3
+
+                print(
+                    f"  {company.trade_name}: {len(securities)} securities synchronized"
+                )
+
+    print("Bootstrap completed successfully.")
+
+    return 0
 
 
 async def sync_company(cvm_code: str) -> int:
@@ -115,6 +194,16 @@ def build_parser() -> argparse.ArgumentParser:
         "cvm_code",
         help="CVM company code.",
     )
+    bootstrap_parser = subparsers.add_parser(
+        "bootstrap",
+        help="Synchronize all monitored companies and securities.",
+    )
+
+    bootstrap_parser.add_argument(
+        "--config",
+        default="config/monitored_companies.yaml",
+        help="Path to monitored companies configuration.",
+    )
 
     return parser
 
@@ -132,6 +221,11 @@ def main() -> None:
     if args.command == "sync-securities":
         exit_code = asyncio.run(
             sync_securities(args.cvm_code),
+        )
+        raise SystemExit(exit_code)
+    if args.command == "bootstrap":
+        exit_code = asyncio.run(
+            bootstrap(args.config),
         )
         raise SystemExit(exit_code)
 
