@@ -3,10 +3,15 @@ import asyncio
 
 import httpx
 
+from br_financial_ai.clients.b3 import B3Client
 from br_financial_ai.clients.cvm import CvmClient
 from br_financial_ai.db.session import async_session_factory
 from br_financial_ai.services.company_sync import CompanySyncService
-from br_financial_ai.services.exceptions import CvmCompanyNotFoundError
+from br_financial_ai.services.exceptions import (
+    CompanyNotFoundError,
+    CvmCompanyNotFoundError,
+)
+from br_financial_ai.services.security_sync import SecuritySyncService
 
 
 async def sync_company(cvm_code: str) -> int:
@@ -42,6 +47,44 @@ async def sync_company(cvm_code: str) -> int:
     return 0
 
 
+async def sync_securities(cvm_code: str) -> int:
+    headers = {
+        "Accept": "application/json, text/plain, */*",
+        "User-Agent": "Mozilla/5.0",
+        "Referer": "https://sistemaswebb3-listados.b3.com.br/",
+        "Accept-Language": "pt-BR,pt;q=0.9",
+    }
+
+    async with httpx.AsyncClient(
+        timeout=30.0,
+        follow_redirects=True,
+        headers=headers,
+    ) as http_client:
+        b3_client = B3Client(http_client)
+
+        async with async_session_factory() as session:
+            service = SecuritySyncService(
+                session=session,
+                b3_client=b3_client,
+            )
+
+            try:
+                securities = await service.sync_by_cvm_code(cvm_code)
+            except CompanyNotFoundError as exc:
+                print(f"Error: {exc}")
+                return 1
+            except httpx.HTTPError as exc:
+                print(f"Error accessing B3: {exc}")
+                return 2
+
+    print("Securities synchronized successfully:")
+
+    for security in securities:
+        print(f"  {security.ticker} | {security.isin} | {security.security_type}")
+
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="br-financial-ai",
@@ -63,6 +106,16 @@ def build_parser() -> argparse.ArgumentParser:
         help="CVM company code.",
     )
 
+    sync_securities_parser = subparsers.add_parser(
+        "sync-securities",
+        help="Synchronize company securities from B3.",
+    )
+
+    sync_securities_parser.add_argument(
+        "cvm_code",
+        help="CVM company code.",
+    )
+
     return parser
 
 
@@ -73,6 +126,12 @@ def main() -> None:
     if args.command == "sync-company":
         exit_code = asyncio.run(
             sync_company(args.cvm_code),
+        )
+        raise SystemExit(exit_code)
+
+    if args.command == "sync-securities":
+        exit_code = asyncio.run(
+            sync_securities(args.cvm_code),
         )
         raise SystemExit(exit_code)
 

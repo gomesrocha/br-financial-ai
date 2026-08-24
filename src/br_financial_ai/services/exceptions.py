@@ -8,3 +8,7 @@ class SecurityAlreadyExistsError(Exception):
 
 class CvmCompanyNotFoundError(Exception):
     pass
+
+
+class CompanyNotFoundError(Exception):
+    pass
