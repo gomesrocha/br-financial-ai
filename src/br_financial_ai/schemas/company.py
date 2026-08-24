@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel
+from sqlmodel import Field, SQLModel
 
 
 class SecurityCreate(SQLModel):
@@ -11,4 +11,8 @@ class CompanyCreate(SQLModel):
     cnpj: str
     legal_name: str
     trade_name: str
-    securities: list[SecurityCreate] = []
+    active: bool = True
+
+    securities: list[SecurityCreate] = Field(
+        default_factory=list,
+    )

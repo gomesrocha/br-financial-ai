@@ -53,6 +53,7 @@ class CompanyService:
             cnpj=data.cnpj.strip(),
             legal_name=data.legal_name.strip(),
             trade_name=data.trade_name.strip(),
+            active=data.active,
         )
 
         company = await self.company_repository.add(company)

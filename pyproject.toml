@@ -51,3 +51,7 @@ select = [
     "B",
     "ASYNC",
 ]
+
+
+[project.scripts]
+br-financial-ai = "br_financial_ai.cli:main"
