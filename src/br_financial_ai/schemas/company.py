@@ -17,3 +17,12 @@ class CompanyCreate(SQLModel):
     securities: list[SecurityCreate] = Field(
         default_factory=list,
     )
+
+
+class CompanyRead(SQLModel):
+    id: int
+    cvm_code: str
+    cnpj: str
+    legal_name: str
+    trade_name: str
+    active: bool
