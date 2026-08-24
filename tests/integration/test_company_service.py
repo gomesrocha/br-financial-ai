@@ -21,10 +21,12 @@ async def test_create_company_with_securities(
         securities=[
             SecurityCreate(
                 ticker="TEST3",
+                isin="BRTESTACNOR1",
                 security_type="ON",
             ),
             SecurityCreate(
                 ticker="TEST4",
+                isin="BRTESTACNPR2",
                 security_type="PN",
             ),
         ],
@@ -42,8 +44,12 @@ async def test_create_company_with_securities(
 
     assert security_on is not None
     assert security_pn is not None
+
     assert security_on.company_id == company.id
     assert security_pn.company_id == company.id
+
+    assert security_on.isin == "BRTESTACNOR1"
+    assert security_pn.isin == "BRTESTACNPR2"
 
 
 @pytest.mark.asyncio

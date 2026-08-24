@@ -28,6 +28,7 @@ async def test_add_and_find_security_by_ticker(
         Security(
             company_id=company.id,
             ticker="TEST3",
+            isin="BRTESTACNOR1",
             security_type="ON",
         )
     )
@@ -38,4 +39,12 @@ async def test_add_and_find_security_by_ticker(
 
     assert found_security is not None
     assert found_security.ticker == "TEST3"
+    assert found_security.isin == "BRTESTACNOR1"
     assert found_security.company_id == company.id
+
+    found_by_isin = await security_repository.get_by_isin(
+        "brtestacnor1",
+    )
+
+    assert found_by_isin is not None
+    assert found_by_isin.id == security.id

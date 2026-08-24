@@ -3,6 +3,7 @@ from sqlmodel import Field, SQLModel
 
 class SecurityCreate(SQLModel):
     ticker: str
+    isin: str
     security_type: str
 
 

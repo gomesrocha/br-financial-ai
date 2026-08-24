@@ -21,9 +21,11 @@ def test_security_model() -> None:
     security = Security(
         company_id=1,
         ticker="TEST3",
+        isin="BRTESTACNOR1",
         security_type="ON",
     )
 
+    assert security.isin == "BRTESTACNOR1"
     assert security.id is None
     assert security.company_id == 1
     assert security.ticker == "TEST3"

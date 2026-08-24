@@ -65,6 +65,7 @@ class CompanyService:
             security = Security(
                 company_id=company.id,
                 ticker=security_data.ticker.strip().upper(),
+                isin=security_data.isin.strip().upper(),
                 security_type=security_data.security_type.strip().upper(),
             )
 

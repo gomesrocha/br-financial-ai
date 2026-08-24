@@ -25,3 +25,14 @@ class SecurityRepository:
         result = await self.session.execute(statement)
 
         return result.scalar_one_or_none()
+
+    async def get_by_isin(self, isin: str) -> Security | None:
+        normalized_isin = isin.strip().upper()
+
+        statement = select(Security).where(
+            Security.isin == normalized_isin,
+        )
+
+        result = await self.session.execute(statement)
+
+        return result.scalar_one_or_none()

@@ -16,6 +16,10 @@ class Security(SQLModel, table=True):
             "ticker",
             name="uq_securities_ticker",
         ),
+        UniqueConstraint(
+            "isin",
+            name="uq_securities_isin",
+        ),
         CheckConstraint(
             "security_type IN ('ON', 'PN', 'UNIT', 'OTHER')",
             name="ck_securities_security_type",
@@ -34,7 +38,10 @@ class Security(SQLModel, table=True):
 
     ticker: str = Field(
         max_length=12,
-        index=True,
+    )
+
+    isin: str = Field(
+        max_length=12,
     )
 
     security_type: str = Field(
