@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 
 from br_financial_ai.api.routers.companies import router as companies_router
+from br_financial_ai.api.routers.financials import (
+    router as financials_router,
+)
 from br_financial_ai.core.settings import get_settings
 
 settings = get_settings()
@@ -15,6 +18,7 @@ app = FastAPI(
 )
 
 app.include_router(companies_router)
+app.include_router(financials_router)
 
 
 @app.get("/health", tags=["health"])
