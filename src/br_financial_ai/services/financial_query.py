@@ -6,6 +6,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from br_financial_ai.db.models import (
     FinancialStatementItem,
 )
+from br_financial_ai.domain.financial_metrics import (
+    get_financial_metric,
+)
 from br_financial_ai.repositories.financial_statement_item import (
     FinancialStatementItemRepository,
 )
@@ -80,4 +83,26 @@ class FinancialQueryService:
             exercise_order="ÚLTIMO",
             period_start=period_start,
             period_end=period_end,
+        )
+
+    async def get_quarter_metric(
+        self,
+        *,
+        ticker: str,
+        year: int,
+        quarter: int,
+        metric_key: str,
+    ) -> FinancialStatementItem | None:
+        metric = get_financial_metric(metric_key)
+
+        if metric is None:
+            raise ValueError(f"Unknown financial metric: {metric_key}")
+
+        return await self.get_quarter_account(
+            ticker=ticker,
+            year=year,
+            quarter=quarter,
+            account_code=metric.account_code,
+            statement_type=metric.statement_type,
+            scope=metric.scope,
         )
