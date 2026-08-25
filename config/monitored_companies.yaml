@@ -2,3 +2,7 @@ companies:
   - cvm_code: "9512"
   - cvm_code: "906"
   - cvm_code: "4170"
+
+financial_data:
+  - document_type: "DFP"
+    year: 2025

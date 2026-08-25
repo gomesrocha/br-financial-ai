@@ -30,6 +30,8 @@ class FinancialStatementRecord:
     period_start: date | None
     period_end: date
 
+    statement_column: str | None
+
     account_code: str
     account_name: str
     value: Decimal
@@ -99,8 +101,9 @@ class CvmFinancialStatementParser:
                     currency=row["MOEDA"].strip(),
                     currency_scale=row["ESCALA_MOEDA"].strip(),
                     exercise_order=row["ORDEM_EXERC"].strip(),
-                    period_start=parse_optional_date(row["DT_INI_EXERC"]),
+                    period_start=parse_optional_date(row.get("DT_INI_EXERC", "")),
                     period_end=date.fromisoformat(row["DT_FIM_EXERC"].strip()),
+                    statement_column=(row.get("COLUNA_DF", "").strip() or None),
                     account_code=row["CD_CONTA"].strip(),
                     account_name=row["DS_CONTA"].strip(),
                     value=Decimal(row["VL_CONTA"].strip()),
