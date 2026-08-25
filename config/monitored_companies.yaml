@@ -6,3 +6,6 @@ companies:
 financial_data:
   - document_type: "DFP"
     year: 2025
+
+  - document_type: "ITR"
+    year: 2026
