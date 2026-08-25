@@ -8,4 +8,6 @@ def normalize_cnpj(value: str) -> str:
 
 
 def normalize_cvm_code(value: str) -> str:
-    return value.strip()
+    normalized = value.strip().lstrip("0")
+
+    return normalized or "0"

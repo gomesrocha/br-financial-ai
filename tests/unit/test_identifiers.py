@@ -20,3 +20,11 @@ def test_normalize_cvm_code() -> None:
     result = normalize_cvm_code(" 9512 ")
 
     assert result == "9512"
+
+
+def test_normalize_padded_cvm_code() -> None:
+    assert normalize_cvm_code("009512") == "9512"
+
+
+def test_normalize_cvm_code_without_padding() -> None:
+    assert normalize_cvm_code("9512") == "9512"
