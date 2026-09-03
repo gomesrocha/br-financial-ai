@@ -8,6 +8,7 @@ from br_financial_ai.schemas.financial import (
 )
 from br_financial_ai.services.exceptions import (
     CompanyNotFoundError,
+    MetricUnsupportedForProfileError,
 )
 
 router = APIRouter(
@@ -91,6 +92,12 @@ async def get_quarter_metric(
     except CompanyNotFoundError as exc:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(exc),
+        ) from exc
+
+    except MetricUnsupportedForProfileError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(exc),
         ) from exc
 

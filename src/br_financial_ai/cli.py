@@ -10,7 +10,13 @@ from br_financial_ai.clients.cvm import CvmClient
 from br_financial_ai.clients.cvm_financial import (
     CvmFinancialClient,
 )
+from br_financial_ai.clients.yahoo_news import (
+    YahooNewsClient,
+    YahooNewsProviderError,
+)
 from br_financial_ai.db.session import async_session_factory
+from br_financial_ai.eval.profile import EvalProfile
+from br_financial_ai.eval.runner import export_eval_history, run_eval
 from br_financial_ai.services.company_sync import (
     CompanySyncService,
 )
@@ -21,9 +27,13 @@ from br_financial_ai.services.exceptions import (
 from br_financial_ai.services.financial_ingestion import (
     FinancialIngestionService,
 )
+from br_financial_ai.services.news_ingestion import (
+    NewsIngestionService,
+)
 from br_financial_ai.services.security_sync import (
     SecuritySyncService,
 )
+from br_financial_ai.services.tracked_company import TrackedCompanyService
 
 
 def load_bootstrap_config(config_path: str) -> dict:
@@ -85,9 +95,18 @@ async def bootstrap(
                 session=session,
                 client=cvm_financial_client,
             )
+            tracked_company_service = TrackedCompanyService(session)
 
             for item in companies:
                 cvm_code = str(item["cvm_code"]).strip()
+                preferred_ticker = (
+                    str(
+                        item.get("preferred_ticker") or "",
+                    )
+                    .strip()
+                    .upper()
+                    or None
+                )
 
                 print(f"Synchronizing CVM company {cvm_code}...")
 
@@ -101,6 +120,27 @@ async def bootstrap(
                         f"{len(securities)} securities "
                         f"synchronized"
                     )
+
+                    if preferred_ticker:
+                        preferred = next(
+                            (
+                                security
+                                for security in securities
+                                if security.ticker == preferred_ticker
+                            ),
+                            None,
+                        )
+                        if preferred is None or company.id is None:
+                            print(
+                                f"  Warning: preferred ticker "
+                                f"{preferred_ticker} was not found."
+                            )
+                        else:
+                            tracked = await tracked_company_service.track_company(
+                                company_id=company.id,
+                                preferred_security=preferred,
+                            )
+                            print(f"  Tracked {preferred.ticker} (id={tracked.id})")
 
                     for financial_item in financial_data:
                         document_type = (
@@ -146,6 +186,37 @@ async def bootstrap(
     return 0
 
 
+async def sync_news(ticker: str, limit: int) -> int:
+    async with async_session_factory() as session:
+        service = NewsIngestionService(
+            session,
+            YahooNewsClient(),
+        )
+
+        try:
+            result = await service.sync_company_news(
+                ticker,
+                limit=limit,
+            )
+        except CompanyNotFoundError as exc:
+            print(f"Error: {exc}")
+            return 1
+        except ValueError as exc:
+            print(f"Error: {exc}")
+            return 2
+        except YahooNewsProviderError as exc:
+            print(f"Error fetching company news: {exc}")
+            return 3
+
+    print("Company news synchronized successfully:")
+    print(f"  Ticker: {result.ticker}")
+    print(f"  Fetched: {result.fetched}")
+    print(f"  Created: {result.created}")
+    print(f"  Skipped: {result.skipped}")
+
+    return 0
+
+
 async def sync_company(
     cvm_code: str,
 ) -> int:
@@ -176,6 +247,7 @@ async def sync_company(
     print(f"  CNPJ: {company.cnpj}")
     print(f"  Legal name: {company.legal_name}")
     print(f"  Trade name: {company.trade_name}")
+    print(f"  Activity: {company.setor_ativ}")
     print(f"  Active: {company.active}")
 
     return 0
@@ -337,6 +409,47 @@ def build_parser() -> argparse.ArgumentParser:
         help=("Path to monitored companies configuration."),
     )
 
+    sync_news_parser = subparsers.add_parser(
+        "sync-news",
+        help=("Synchronize persisted Yahoo news for a ticker."),
+    )
+    sync_news_parser.add_argument(
+        "ticker",
+        help="B3 ticker, for example PETR4.",
+    )
+    sync_news_parser.add_argument(
+        "--limit",
+        type=int,
+        default=10,
+        help="Maximum number of articles to fetch.",
+    )
+
+    eval_parser = subparsers.add_parser(
+        "eval",
+        help="Run FAST or FULL model/provider evaluation.",
+    )
+    eval_parser.add_argument(
+        "--profile",
+        choices=(EvalProfile.FAST.value, EvalProfile.FULL.value),
+        required=True,
+        help="FAST is a representative subset. FULL is the complete eval suite.",
+    )
+    eval_parser.add_argument(
+        "--fail-on-regression",
+        action="store_true",
+        help="Exit non-zero when quality gates fail.",
+    )
+    eval_parser.add_argument(
+        "--no-export",
+        action="store_true",
+        help="Do not copy reports into the frontend public/ folder.",
+    )
+
+    subparsers.add_parser(
+        "eval-export",
+        help="Copy eval reports into the frontend public/evals/ folder.",
+    )
+
     return parser
 
 
@@ -371,6 +484,24 @@ def main() -> None:
             bootstrap(args.config),
         )
         raise SystemExit(exit_code)
+
+    if args.command == "sync-news":
+        exit_code = asyncio.run(
+            sync_news(args.ticker, args.limit),
+        )
+        raise SystemExit(exit_code)
+
+    if args.command == "eval":
+        raise SystemExit(
+            run_eval(
+                args.profile,
+                fail_on_regression=args.fail_on_regression,
+                export=not args.no_export,
+            )
+        )
+
+    if args.command == "eval-export":
+        raise SystemExit(export_eval_history())
 
 
 if __name__ == "__main__":

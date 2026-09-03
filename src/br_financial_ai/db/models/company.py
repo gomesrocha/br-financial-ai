@@ -45,6 +45,11 @@ class Company(SQLModel, table=True):
         max_length=255,
     )
 
+    setor_ativ: str | None = Field(
+        default=None,
+        max_length=255,
+    )
+
     active: bool = Field(
         default=True,
     )

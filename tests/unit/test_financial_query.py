@@ -3,6 +3,7 @@ from datetime import date
 import pytest
 
 from br_financial_ai.services.financial_query import (
+    annual_period,
     quarter_period,
 )
 
@@ -55,3 +56,10 @@ def test_reject_invalid_quarter() -> None:
             2026,
             5,
         )
+
+
+def test_annual_period() -> None:
+    assert annual_period(2025) == (
+        date(2025, 1, 1),
+        date(2025, 12, 31),
+    )

@@ -1,0 +1,162 @@
+{
+  "cases": [
+    {
+      "id": "strong_favorable",
+      "fast": true,
+      "expected_stance": "FAVORABLE",
+      "context": {
+        "revenue": "490829000000",
+        "gross": "196000000000",
+        "operating": "120000000000",
+        "net_income": "80000000000",
+        "market_cap": "400000000000",
+        "price_to_sales": "0.81",
+        "price_to_earnings": "5.0",
+        "period_return": "0.12",
+        "drawdown": "-0.04",
+        "news_title": "Petrobras raises production guidance and reports solid cash generation",
+        "news_sentiment": "POSITIVE"
+      }
+    },
+    {
+      "id": "weak_favorable",
+      "expected_stance": ["FAVORABLE", "NEUTRAL"],
+      "context": {
+        "revenue": "490829000000",
+        "gross": "160000000000",
+        "operating": "70000000000",
+        "net_income": "35000000000",
+        "market_cap": "420000000000",
+        "price_to_sales": "0.86",
+        "price_to_earnings": "12.0",
+        "period_return": "0.02",
+        "drawdown": "-0.08",
+        "news_title": "Petrobras reports in-line results and keeps guidance unchanged",
+        "news_sentiment": "POSITIVE"
+      }
+    },
+    {
+      "id": "mixed",
+      "fast": true,
+      "expected_stance": "NEUTRAL",
+      "context": {
+        "revenue": "490829000000",
+        "gross": "196000000000",
+        "operating": "120000000000",
+        "net_income": "80000000000",
+        "market_cap": "400000000000",
+        "price_to_sales": "0.81",
+        "price_to_earnings": "5.0",
+        "period_return": "-0.03",
+        "drawdown": "-0.08",
+        "news_title": "Petrobras beats annual earnings estimates but faces a new regulatory probe",
+        "news_sentiment": "MIXED",
+        "unavailable_1y": true
+      }
+    },
+    {
+      "id": "weak_unfavorable",
+      "expected_stance": ["UNFAVORABLE", "NEUTRAL"],
+      "context": {
+        "revenue": "300000000000",
+        "gross": "40000000000",
+        "operating": "5000000000",
+        "net_income": "2000000000",
+        "market_cap": "380000000000",
+        "price_to_sales": "1.27",
+        "price_to_earnings": "190.0",
+        "period_return": "-0.09",
+        "drawdown": "-0.14",
+        "news_title": "Petrobras warns of higher lifting costs and slower production",
+        "news_sentiment": "NEGATIVE"
+      }
+    },
+    {
+      "id": "strong_unfavorable",
+      "fast": true,
+      "expected_stance": "UNFAVORABLE",
+      "context": {
+        "revenue": "200000000000",
+        "gross": "20000000000",
+        "operating": "-15000000000",
+        "net_income": "-25000000000",
+        "market_cap": "400000000000",
+        "price_to_sales": "2.0",
+        "price_to_earnings": null,
+        "period_return": "-0.25",
+        "drawdown": "-0.30",
+        "news_title": "Petrobras cuts production guidance after severe operational setback",
+        "news_sentiment": "NEGATIVE"
+      }
+    },
+    {
+      "id": "insufficient_data",
+      "expected_stance": "NEUTRAL",
+      "context": {
+        "revenue": null,
+        "gross": null,
+        "operating": null,
+        "net_income": null,
+        "market_cap": null,
+        "price_to_sales": null,
+        "price_to_earnings": null,
+        "period_return": "0.00",
+        "drawdown": "0.00",
+        "news_title": null,
+        "news_sentiment": "NEUTRAL",
+        "no_news": true
+      }
+    },
+    {
+      "id": "conflicting_market_vs_fundamentals",
+      "expected_stance": "NEUTRAL",
+      "context": {
+        "revenue": "490829000000",
+        "gross": "196000000000",
+        "operating": "120000000000",
+        "net_income": "80000000000",
+        "market_cap": "400000000000",
+        "price_to_sales": "0.81",
+        "price_to_earnings": "5.0",
+        "period_return": "-0.22",
+        "drawdown": "-0.28",
+        "news_title": "Petrobras reports another year of strong cash generation",
+        "news_sentiment": "POSITIVE"
+      }
+    },
+    {
+      "id": "negative_news_vs_strong_fundamentals",
+      "expected_stance": ["NEUTRAL", "UNFAVORABLE"],
+      "context": {
+        "revenue": "490829000000",
+        "gross": "196000000000",
+        "operating": "120000000000",
+        "net_income": "80000000000",
+        "market_cap": "400000000000",
+        "price_to_sales": "0.81",
+        "price_to_earnings": "5.0",
+        "period_return": "0.04",
+        "drawdown": "-0.06",
+        "news_title": "Prosecutors open a major corruption investigation into Petrobras contracts",
+        "news_sentiment": "NEGATIVE"
+      }
+    },
+    {
+      "id": "positive_news_vs_poor_fundamentals",
+      "expected_stance": ["NEUTRAL", "UNFAVORABLE"],
+      "context": {
+        "revenue": "180000000000",
+        "gross": "15000000000",
+        "operating": "-8000000000",
+        "net_income": "-18000000000",
+        "market_cap": "390000000000",
+        "price_to_sales": "2.17",
+        "price_to_earnings": null,
+        "period_return": "-0.18",
+        "drawdown": "-0.24",
+        "news_title": "Petrobras announces a modest dividend and a small production beat",
+        "news_sentiment": "POSITIVE"
+      }
+    }
+  ]
+}

@@ -1,6 +1,12 @@
 from sqlmodel import SQLModel
 
-from br_financial_ai.db.models import Company, Security
+from br_financial_ai.db.models import (
+    Company,
+    CompanyOnboardingJob,  # noqa: F401
+    NewsArticleSignal,  # noqa: F401
+    Security,
+    TrackedCompany,  # noqa: F401
+)
 
 
 def test_company_model() -> None:
@@ -15,6 +21,7 @@ def test_company_model() -> None:
     assert company.cvm_code == "TEST001"
     assert company.cnpj == "12345678000199"
     assert company.active is True
+    assert company.setor_ativ is None
 
 
 def test_security_model() -> None:
@@ -36,3 +43,6 @@ def test_security_model() -> None:
 def test_company_and_security_tables_are_registered() -> None:
     assert "companies" in SQLModel.metadata.tables
     assert "securities" in SQLModel.metadata.tables
+    assert "tracked_companies" in SQLModel.metadata.tables
+    assert "company_onboarding_jobs" in SQLModel.metadata.tables
+    assert "news_article_signals" in SQLModel.metadata.tables

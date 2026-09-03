@@ -1,0 +1,105 @@
+{
+  "cases": [
+    {
+      "id": "petr4_revenue_long_pt",
+      "fast": true,
+      "question": "Qual foi a receita da PETR4 no segundo trimestre de 2026?",
+      "expected": {
+        "name": "get_quarter_financial_metric",
+        "args": { "ticker": "PETR4", "metric": "revenue", "year": 2026, "quarter": 2 }
+      }
+    },
+    {
+      "id": "petr4_revenue_2t26",
+      "fast": true,
+      "question": "Qual a receita da PETR4 no 2T26?",
+      "expected": {
+        "name": "get_quarter_financial_metric",
+        "args": { "ticker": "PETR4", "metric": "revenue", "year": 2026, "quarter": 2 }
+      }
+    },
+    {
+      "id": "petr4_revenue_petrobras_faturamento",
+      "question": "Quanto a Petrobras faturou no segundo trimestre de 2026?",
+      "expected": {
+        "name": "get_quarter_financial_metric",
+        "args": { "ticker": "PETR4", "metric": "revenue", "year": 2026, "quarter": 2 }
+      }
+    },
+    {
+      "id": "petr4_revenue_q2_en",
+      "question": "Receita PETR4 Q2 2026",
+      "expected": {
+        "name": "get_quarter_financial_metric",
+        "args": { "ticker": "PETR4", "metric": "revenue", "year": 2026, "quarter": 2 }
+      }
+    },
+    {
+      "id": "petr4_net_income_2q",
+      "fast": true,
+      "question": "Qual o lucro líquido da PETR4 no 2T2026?",
+      "expected": {
+        "name": "get_quarter_financial_metric",
+        "args": { "ticker": "PETR4", "metric": "net_income", "year": 2026, "quarter": 2 }
+      }
+    },
+    {
+      "id": "petr4_gross_profit_q1",
+      "fast": true,
+      "question": "Lucro bruto da PETR4 no primeiro trimestre de 2026",
+      "expected": {
+        "name": "get_quarter_financial_metric",
+        "args": { "ticker": "PETR4", "metric": "gross_profit", "year": 2026, "quarter": 1 }
+      }
+    },
+    {
+      "id": "petr4_operating_result_q3",
+      "question": "Resultado operacional PETR4 3T26",
+      "expected": {
+        "name": "get_quarter_financial_metric",
+        "args": { "ticker": "PETR4", "metric": "operating_result", "year": 2026, "quarter": 3 }
+      }
+    },
+    {
+      "id": "vale3_revenue_q2",
+      "fast": true,
+      "question": "Qual foi a receita da VALE3 no segundo trimestre de 2026?",
+      "expected": {
+        "name": "get_quarter_financial_metric",
+        "args": { "ticker": "VALE3", "metric": "revenue", "year": 2026, "quarter": 2 }
+      }
+    },
+    {
+      "id": "vale3_net_income_q2",
+      "question": "Lucro líquido VALE3 2T26",
+      "expected": {
+        "name": "get_quarter_financial_metric",
+        "args": { "ticker": "VALE3", "metric": "net_income", "year": 2026, "quarter": 2 }
+      }
+    },
+    {
+      "id": "bbdc4_revenue_q1",
+      "question": "Receita BBDC4 no primeiro trimestre de 2026",
+      "expected": {
+        "name": "get_quarter_financial_metric",
+        "args": { "ticker": "BBDC4", "metric": "revenue", "year": 2026, "quarter": 1 }
+      }
+    },
+    {
+      "id": "bbdc4_net_income_q2",
+      "question": "Qual o lucro líquido do Bradesco (BBDC4) no 2T2026?",
+      "expected": {
+        "name": "get_quarter_financial_metric",
+        "args": { "ticker": "BBDC4", "metric": "net_income", "year": 2026, "quarter": 2 }
+      }
+    },
+    {
+      "id": "petr4_wrong_quarter_must_not_match_q2",
+      "question": "Receita da PETR4 no quarto trimestre de 2026",
+      "expected": {
+        "name": "get_quarter_financial_metric",
+        "args": { "ticker": "PETR4", "metric": "revenue", "year": 2026, "quarter": 4 }
+      }
+    }
+  ]
+}

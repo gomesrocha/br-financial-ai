@@ -36,3 +36,12 @@ class SecurityRepository:
         result = await self.session.execute(statement)
 
         return result.scalar_one_or_none()
+
+    async def list_by_company_id(self, company_id: int) -> list[Security]:
+        statement = (
+            select(Security)
+            .where(Security.company_id == company_id)
+            .order_by(Security.ticker)
+        )
+        result = await self.session.execute(statement)
+        return list(result.scalars().all())

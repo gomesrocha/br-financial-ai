@@ -12,6 +12,12 @@ from br_financial_ai.utils.identifiers import (
 CVM_COMPANIES_URL = (
     "https://dados.cvm.gov.br/dados/CIA_ABERTA/CAD/DADOS/cad_cia_aberta.csv"
 )
+CVM_TIMEOUT = httpx.Timeout(
+    connect=5.0,
+    read=30.0,
+    write=15.0,
+    pool=5.0,
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -21,6 +27,7 @@ class CvmCompanyRecord:
     legal_name: str
     trade_name: str
     status: str
+    setor_ativ: str | None = None
 
 
 class CvmClient:
@@ -31,7 +38,10 @@ class CvmClient:
         self.http_client = http_client
 
     async def get_companies(self) -> list[CvmCompanyRecord]:
-        response = await self.http_client.get(CVM_COMPANIES_URL)
+        response = await self.http_client.get(
+            CVM_COMPANIES_URL,
+            timeout=CVM_TIMEOUT,
+        )
         response.raise_for_status()
 
         return parse_companies_csv(response.content)
@@ -68,6 +78,15 @@ def parse_companies_csv(content: bytes) -> list[CvmCompanyRecord]:
             legal_name=row["DENOM_SOCIAL"].strip(),
             trade_name=row["DENOM_COMERC"].strip(),
             status=row["SIT"].strip(),
+            setor_ativ=_optional_csv_value(row.get("SETOR_ATIV")),
         )
         for row in reader
     ]
+
+
+def _optional_csv_value(value: str | None) -> str | None:
+    if value is None:
+        return None
+
+    stripped = value.strip()
+    return stripped or None

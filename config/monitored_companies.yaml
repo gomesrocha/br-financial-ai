@@ -1,7 +1,10 @@
 companies:
   - cvm_code: "9512"
+    preferred_ticker: PETR4
   - cvm_code: "906"
+    preferred_ticker: BBDC4
   - cvm_code: "4170"
+    preferred_ticker: VALE3
 
 financial_data:
   - document_type: "DFP"

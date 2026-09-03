@@ -1,0 +1,4 @@
+{
+  "unsupported_metrics": ["P/B", "EV/EBITDA"],
+  "forbidden_stances": ["BUY", "SELL", "HOLD"]
+}

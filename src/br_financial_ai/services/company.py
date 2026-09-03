@@ -53,6 +53,7 @@ class CompanyService:
             cnpj=data.cnpj.strip(),
             legal_name=data.legal_name.strip(),
             trade_name=data.trade_name.strip(),
+            setor_ativ=_optional_text(data.setor_ativ),
             active=data.active,
         )
 
@@ -74,3 +75,11 @@ class CompanyService:
         await self.session.commit()
 
         return company
+
+
+def _optional_text(value: str | None) -> str | None:
+    if value is None:
+        return None
+
+    stripped = value.strip()
+    return stripped or None

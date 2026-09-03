@@ -10,12 +10,13 @@ from br_financial_ai.services.exceptions import CvmCompanyNotFoundError
 
 def create_cvm_transport() -> httpx.MockTransport:
     csv_content = (
-        "CNPJ_CIA;DENOM_SOCIAL;DENOM_COMERC;SIT;CD_CVM\n"
+        "CNPJ_CIA;DENOM_SOCIAL;DENOM_COMERC;SIT;CD_CVM;SETOR_ATIV\n"
         "33.000.167/0001-01;"
         "PETRÓLEO BRASILEIRO S.A. - PETROBRAS;"
         "PETROBRAS;"
         "ATIVO;"
-        "9512\n"
+        "9512;"
+        "Petróleo e Gás\n"
     )
 
     def handler(request: httpx.Request) -> httpx.Response:
@@ -51,6 +52,7 @@ async def test_sync_company_from_cvm(
     assert company.cnpj == "33000167000101"
     assert company.trade_name == "PETROBRAS"
     assert company.active is True
+    assert company.setor_ativ == "Petróleo e Gás"
 
     repository = CompanyRepository(db_session)
 
@@ -58,6 +60,65 @@ async def test_sync_company_from_cvm(
 
     assert saved_company is not None
     assert saved_company.id == company.id
+
+
+def create_bank_cvm_transport() -> httpx.MockTransport:
+    csv_content = (
+        "CNPJ_CIA;DENOM_SOCIAL;DENOM_COMERC;SIT;CD_CVM;SETOR_ATIV\n"
+        "00.000.000/0001-91;"
+        "BANCO TESTE S.A.;"
+        "BANCO TESTE;"
+        "ATIVO;"
+        "88001;"
+        "Bancos\n"
+    )
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(
+            200,
+            content=csv_content.encode(),
+            request=request,
+        )
+
+    return httpx.MockTransport(handler)
+
+
+@pytest.mark.asyncio
+async def test_sync_existing_company_refreshes_null_setor_ativ(
+    db_session: AsyncSession,
+) -> None:
+    from br_financial_ai.db.models import Company
+
+    db_session.add(
+        Company(
+            cvm_code="88001",
+            cnpj="00000000000191",
+            legal_name="BANCO TESTE S.A.",
+            trade_name="BANCO TESTE",
+            setor_ativ=None,
+            active=True,
+        )
+    )
+    await db_session.flush()
+
+    transport = create_bank_cvm_transport()
+
+    async with httpx.AsyncClient(
+        transport=transport,
+    ) as http_client:
+        cvm_client = CvmClient(http_client)
+        service = CompanySyncService(
+            db_session,
+            cvm_client,
+        )
+        company = await service.sync_by_cvm_code("88001")
+
+    assert company.setor_ativ == "Bancos"
+
+    repository = CompanyRepository(db_session)
+    saved = await repository.get_by_cvm_code("88001")
+    assert saved is not None
+    assert saved.setor_ativ == "Bancos"
 
 
 @pytest.mark.asyncio

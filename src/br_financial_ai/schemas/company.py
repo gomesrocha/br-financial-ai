@@ -12,6 +12,7 @@ class CompanyCreate(SQLModel):
     cnpj: str
     legal_name: str
     trade_name: str
+    setor_ativ: str | None = None
     active: bool = True
 
     securities: list[SecurityCreate] = Field(
