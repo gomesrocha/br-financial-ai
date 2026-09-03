@@ -7,12 +7,12 @@ Feature: Universo inicial de companhias monitoradas
   Scenario Outline: Identificar companhia por ticker
     Given que existe um universo inicial de companhias monitoradas
     When eu consulto o ticker "<ticker>"
-    Then a companhia identificada deve ser "<company>"
+    Then a companhia identificada deve possuir o código CVM "<cvm_code>"
 
     Examples:
-      | ticker | company   |
-      | PETR3  | Petrobras |
-      | PETR4  | Petrobras |
-      | BBDC3  | Bradesco  |
-      | BBDC4  | Bradesco  |
-      | VALE3  | Vale      |
+      | ticker | cvm_code |
+      | PETR3  | 9512     |
+      | PETR4  | 9512     |
+      | BBDC3  | 906      |
+      | BBDC4  | 906      |
+      | VALE3  | 4170     |

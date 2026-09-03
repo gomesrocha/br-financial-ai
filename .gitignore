@@ -38,3 +38,28 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Generated evaluation scratch. latest.json / latest.md are the accepted
+# baseline. Timestamped history files listed below are tracked snapshots.
+evals/reports/*
+!evals/reports/.gitkeep
+!evals/reports/latest.json
+!evals/reports/latest.md
+!evals/reports/history/
+evals/reports/history/*
+!evals/reports/history/.gitkeep
+!evals/reports/history/index.json
+!evals/reports/history/2026-09-02T174658Z.json
+!evals/reports/history/2026-09-02T220819Z.json
+!evals/reports/history/2026-09-02T225152Z.json
+!evals/reports/history/2026-09-02T234957Z.json
+!evals/reports/history/2026-09-03T001742Z.json
+!evals/reports/history/2026-09-03T011616Z.json
+!evals/reports/history/2026-09-03T021334Z.json
+
+
+PROMPT-*.md
+docs/internal/
+docs/notes/
+docs/drafts/
+*.local.md

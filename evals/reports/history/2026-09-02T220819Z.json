@@ -1,0 +1,87 @@
+{
+  "generated_at": "2026-09-02T22:08:19Z",
+  "tool_selection": {
+    "cases": 5,
+    "tool_name_accuracy": "1.0000",
+    "argument_accuracy": "1.0000",
+    "exact_call_accuracy": "1.0000"
+  },
+  "news_classification": {
+    "cases": 4,
+    "relevance_accuracy": "1.0000",
+    "materiality_accuracy": "0.7500",
+    "company_specific_accuracy": "1.0000",
+    "sentiment_agreement": "1.0000",
+    "category_agreement": "1.0000"
+  },
+  "recommendation": {
+    "cases": 3,
+    "stance_accuracy": "1.0000",
+    "factual_consistency": "1.0000",
+    "evidence_grounding": "1.0000",
+    "hallucination_count": 0,
+    "true_hallucination_count": 0,
+    "evaluator_false_positive_count": 0
+  },
+  "stability": {},
+  "performance": {},
+  "llm_usage": {
+    "news_classification": {
+      "input_tokens": 425,
+      "output_tokens": 100,
+      "total_tokens": 525,
+      "estimated_cost": null,
+      "currency": null,
+      "model": "llama3.1",
+      "provider": "ollama",
+      "available": true
+    },
+    "recommendation": {
+      "input_tokens": 722,
+      "output_tokens": 285,
+      "total_tokens": 1007,
+      "estimated_cost": null,
+      "currency": null,
+      "model": "llama3.1",
+      "provider": "ollama",
+      "available": true
+    },
+    "recommendation_prompt_characters": 1389,
+    "tool_selection": {
+      "input_tokens": 381,
+      "output_tokens": 43,
+      "total_tokens": 424,
+      "estimated_cost": null,
+      "currency": null,
+      "model": "llama3.1",
+      "provider": "ollama",
+      "available": true
+    }
+  },
+  "e2e": {},
+  "status": "PASS",
+  "gates": {
+    "passed": [
+      "exact tool-call accuracy 1.0 >= 0.95",
+      "news relevance accuracy 1.0 >= 0.9",
+      "company-specific accuracy 1.0 >= 0.9",
+      "stance accuracy 1.0 >= 0.8",
+      "factual consistency 1.0 >= 0.95",
+      "evidence grounding 1.0 >= 1.0",
+      "true hallucinations 0.0 == 0.0"
+    ],
+    "failed": [],
+    "unmeasured": []
+  },
+  "warnings": [],
+  "comparison": null,
+  "run": {
+    "id": "2026-09-02T220819Z",
+    "timestamp": "2026-09-02T22:08:19Z",
+    "profile": "fast",
+    "model_provider": "ollama",
+    "model_name": "llama3.1",
+    "git_commit": "55ca8f905a5d5a0b8ebdbaabfc0d3bf7aa388a78",
+    "git_branch": "feat/persistence"
+  }
+}

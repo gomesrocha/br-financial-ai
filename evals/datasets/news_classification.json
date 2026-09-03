@@ -1,0 +1,152 @@
+{
+  "cases": [
+    {
+      "id": "company_specific_positive",
+      "fast": true,
+      "request": {
+        "article_id": 1,
+        "ticker": "PETR4",
+        "company_name": "Petrobras",
+        "title": "Petrobras announces 2026 production guidance and capex plan",
+        "summary": "Petrobras said it will raise its own oil production and increase capital expenditure on pre-salt fields. The company detailed its drilling schedule and capex budget for the next five years.",
+        "publisher": "Reuters"
+      },
+      "expected": {
+        "company_specific": true,
+        "relevance": ["HIGH"],
+        "materiality": ["MEDIUM", "HIGH"],
+        "sentiment": ["POSITIVE"],
+        "categories_any": ["production", "capex"]
+      }
+    },
+    {
+      "id": "company_specific_adverse",
+      "fast": true,
+      "request": {
+        "article_id": 2,
+        "ticker": "PETR4",
+        "company_name": "Petrobras",
+        "title": "Petrobras cuts production after a major platform accident",
+        "summary": "Petrobras halted output at a Campos Basin platform following a serious operational accident. The company warned of lower near-term production and extra repair costs.",
+        "publisher": "Valor"
+      },
+      "expected": {
+        "company_specific": true,
+        "relevance": ["HIGH"],
+        "materiality": ["HIGH"],
+        "sentiment": ["NEGATIVE"],
+        "categories_any": ["accident", "production", "operations"]
+      }
+    },
+    {
+      "id": "sector_event",
+      "fast": true,
+      "request": {
+        "article_id": 3,
+        "ticker": "PETR4",
+        "company_name": "Petrobras",
+        "title": "Oil companies rise after crude jumps on tighter supply",
+        "summary": "Shares of Exxon, Shell, BP and Petrobras moved higher with the broader oil sector after a jump in crude prices. No company-specific operational update was provided.",
+        "publisher": "Bloomberg"
+      },
+      "expected": {
+        "company_specific": false,
+        "relevance": ["MEDIUM", "HIGH"],
+        "materiality": ["LOW", "MEDIUM", "HIGH"],
+        "sentiment": ["POSITIVE", "NEUTRAL", "MIXED"],
+        "categories_any": ["oil_price", "commodity_price"]
+      }
+    },
+    {
+      "id": "macro_event",
+      "fast": true,
+      "request": {
+        "article_id": 4,
+        "ticker": "BBDC4",
+        "company_name": "Bradesco",
+        "title": "Brazilian central bank holds the Selic rate",
+        "summary": "Brazil's central bank kept the benchmark interest rate unchanged. Banks including Bradesco were mentioned among financial stocks that reacted to the macro decision.",
+        "publisher": "Reuters"
+      },
+      "expected": {
+        "company_specific": false,
+        "relevance": ["MEDIUM", "HIGH"],
+        "materiality": ["LOW", "MEDIUM", "HIGH"],
+        "sentiment": ["NEUTRAL", "MIXED", "NEGATIVE", "POSITIVE"],
+        "categories_any": ["interest_rates", "macro"]
+      }
+    },
+    {
+      "id": "geopolitical_event",
+      "request": {
+        "article_id": 5,
+        "ticker": "PETR4",
+        "company_name": "Petrobras",
+        "title": "Oil companies rise after Strait of Hormuz disruption fears",
+        "summary": "Crude jumped after reports of tension in the Strait of Hormuz. Shares of Exxon, Shell, BP and Petrobras moved higher along with the broader oil sector. No company-specific operational update was provided.",
+        "publisher": "Bloomberg"
+      },
+      "expected": {
+        "company_specific": false,
+        "relevance": ["MEDIUM", "HIGH"],
+        "materiality": ["LOW", "MEDIUM", "HIGH"],
+        "sentiment": ["POSITIVE", "MIXED", "NEUTRAL"],
+        "categories_any": ["geopolitics", "oil_price", "commodity_price"]
+      }
+    },
+    {
+      "id": "weak_mention",
+      "request": {
+        "article_id": 6,
+        "ticker": "PETR4",
+        "company_name": "Petrobras",
+        "title": "Ibovespa closes mixed as banks outperform",
+        "summary": "Brazilian equities were mixed. Vale and Itau led gains, while several other names including a brief mention of Petrobras were little changed on light volume.",
+        "publisher": "Valor"
+      },
+      "expected": {
+        "company_specific": false,
+        "relevance": ["LOW"],
+        "materiality": ["LOW", "MEDIUM"],
+        "sentiment": ["NEUTRAL", "MIXED"],
+        "categories_any": []
+      }
+    },
+    {
+      "id": "irrelevant_mention",
+      "request": {
+        "article_id": 7,
+        "ticker": "VALE3",
+        "company_name": "Vale",
+        "title": "Local football club signs a new striker",
+        "summary": "A Rio football club announced a new striker for the next season. The article does not discuss Vale, mining, or financial markets.",
+        "publisher": "Sports Daily"
+      },
+      "expected": {
+        "company_specific": false,
+        "relevance": ["LOW"],
+        "materiality": ["LOW"],
+        "sentiment": ["NEUTRAL"],
+        "categories_any": []
+      }
+    },
+    {
+      "id": "mixed_impact",
+      "request": {
+        "article_id": 8,
+        "ticker": "PETR4",
+        "company_name": "Petrobras",
+        "title": "Petrobras beats earnings estimates but faces a new regulatory probe",
+        "summary": "Petrobras reported stronger-than-expected quarterly profit while disclosing a new regulatory investigation that may lead to fines. The company raised cash generation guidance and warned about legal uncertainty.",
+        "publisher": "Reuters"
+      },
+      "expected": {
+        "company_specific": true,
+        "relevance": ["HIGH"],
+        "materiality": ["MEDIUM", "HIGH"],
+        "sentiment": ["MIXED"],
+        "categories_any": ["earnings", "profit", "regulation", "legal"]
+      }
+    }
+  ]
+}

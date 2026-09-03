@@ -1,0 +1,258 @@
+{
+  "generated_at": "2026-09-02T23:49:57Z",
+  "tool_selection": {
+    "cases": 5,
+    "tool_name_accuracy": "1.0000",
+    "argument_accuracy": "1.0000",
+    "exact_call_accuracy": "1.0000",
+    "case_ids": [
+      "petr4_revenue_long_pt",
+      "petr4_revenue_2t26",
+      "petr4_net_income_2q",
+      "petr4_gross_profit_q1",
+      "vale3_revenue_q2"
+    ]
+  },
+  "news_classification": {
+    "cases": 4,
+    "relevance_accuracy": "1.0000",
+    "materiality_accuracy": "0.7500",
+    "company_specific_accuracy": "1.0000",
+    "sentiment_agreement": "1.0000",
+    "category_agreement": "1.0000",
+    "case_ids": [
+      "company_specific_positive",
+      "company_specific_adverse",
+      "sector_event",
+      "macro_event"
+    ]
+  },
+  "recommendation": {
+    "cases": 3,
+    "stance_accuracy": "1.0000",
+    "factual_consistency": "1.0000",
+    "evidence_grounding": "1.0000",
+    "hallucination_count": 0,
+    "true_hallucination_count": 0,
+    "evaluator_false_positive_count": 0,
+    "case_ids": [
+      "strong_favorable",
+      "mixed",
+      "strong_unfavorable"
+    ]
+  },
+  "stability": {},
+  "performance": {},
+  "llm_usage": {
+    "news_classification": {
+      "input_tokens": 1715,
+      "output_tokens": 347,
+      "total_tokens": 2062,
+      "estimated_cost": null,
+      "currency": null,
+      "model": "llama3.1",
+      "provider": "ollama",
+      "available": true,
+      "calls": 4
+    },
+    "recommendation": {
+      "input_tokens": 2232,
+      "output_tokens": 816,
+      "total_tokens": 3048,
+      "estimated_cost": null,
+      "currency": null,
+      "model": "llama3.1",
+      "provider": "ollama",
+      "available": true,
+      "calls": 3
+    },
+    "recommendation_prompt_characters": 1560,
+    "tool_selection": {
+      "input_tokens": 1904,
+      "output_tokens": 215,
+      "total_tokens": 2119,
+      "estimated_cost": null,
+      "currency": null,
+      "model": "llama3.1",
+      "provider": "ollama",
+      "available": true,
+      "calls": 5
+    }
+  },
+  "e2e": {},
+  "eval_performance": {
+    "grounding_eval_seconds": 0.0031,
+    "news_eval_seconds": 257.4658,
+    "news_llm_calls": 4,
+    "recommendation_eval_seconds": 203.1271,
+    "recommendation_llm_calls": 3,
+    "tool_selection_eval_seconds": 46.2581,
+    "tool_selection_llm_calls": 5,
+    "fast_eval_total_seconds": 507.2679,
+    "report_generation_seconds": 0.0222
+  },
+  "run": {
+    "id": "2026-09-02T234957Z",
+    "timestamp": "2026-09-02T23:49:57Z",
+    "profile": "fast",
+    "model_provider": "ollama",
+    "model_name": "llama3.1",
+    "git_commit": "55ca8f905a5d5a0b8ebdbaabfc0d3bf7aa388a78",
+    "git_branch": "feat/persistence"
+  },
+  "status": "PASS",
+  "gates": {
+    "passed": [
+      "exact tool-call accuracy 1.0 >= 0.95",
+      "news relevance accuracy 1.0 >= 0.9",
+      "company-specific accuracy 1.0 >= 0.9",
+      "stance accuracy 1.0 >= 0.8",
+      "factual consistency 1.0 >= 0.95",
+      "evidence grounding 1.0 >= 1.0",
+      "true hallucinations 0.0 == 0.0"
+    ],
+    "failed": [],
+    "unmeasured": []
+  },
+  "warnings": [],
+  "comparison": {
+    "previous_run_id": "2026-09-02T225152Z",
+    "metrics": {
+      "tool_name_accuracy": {
+        "previous": 1.0,
+        "current": 1.0,
+        "delta": 0.0
+      },
+      "argument_accuracy": {
+        "previous": 1.0,
+        "current": 1.0,
+        "delta": 0.0
+      },
+      "exact_tool_call_accuracy": {
+        "previous": 1.0,
+        "current": 1.0,
+        "delta": 0.0
+      },
+      "news_relevance_accuracy": {
+        "previous": 1.0,
+        "current": 1.0,
+        "delta": 0.0
+      },
+      "news_materiality_accuracy": {
+        "previous": 0.75,
+        "current": 0.75,
+        "delta": 0.0
+      },
+      "company_specific_accuracy": {
+        "previous": 1.0,
+        "current": 1.0,
+        "delta": 0.0
+      },
+      "sentiment_agreement": {
+        "previous": 1.0,
+        "current": 1.0,
+        "delta": 0.0
+      },
+      "stance_accuracy": {
+        "previous": 1.0,
+        "current": 1.0,
+        "delta": 0.0
+      },
+      "factual_consistency": {
+        "previous": 1.0,
+        "current": 1.0,
+        "delta": 0.0
+      },
+      "evidence_grounding": {
+        "previous": 1.0,
+        "current": 1.0,
+        "delta": 0.0
+      },
+      "true_hallucination_count": {
+        "previous": 0.0,
+        "current": 0.0,
+        "delta": 0.0
+      },
+      "news_classification_latency": {
+        "previous": null,
+        "current": null,
+        "delta": null
+      },
+      "recommendation_latency": {
+        "previous": null,
+        "current": null,
+        "delta": null
+      },
+      "total_analysis_latency_seconds": {
+        "previous": null,
+        "current": null,
+        "delta": null
+      },
+      "tool_selection_input_tokens": {
+        "previous": 1904.0,
+        "current": 1904.0,
+        "delta": 0.0
+      },
+      "tool_selection_output_tokens": {
+        "previous": 215.0,
+        "current": 215.0,
+        "delta": 0.0
+      },
+      "news_classification_input_tokens": {
+        "previous": 1715.0,
+        "current": 1715.0,
+        "delta": 0.0
+      },
+      "news_classification_output_tokens": {
+        "previous": 347.0,
+        "current": 347.0,
+        "delta": 0.0
+      },
+      "recommendation_input_tokens": {
+        "previous": 2232.0,
+        "current": 2232.0,
+        "delta": 0.0
+      },
+      "recommendation_output_tokens": {
+        "previous": 816.0,
+        "current": 816.0,
+        "delta": 0.0
+      },
+      "fast_eval_total_seconds": {
+        "previous": 310.1769,
+        "current": 507.2679,
+        "delta": 197.091
+      },
+      "tool_selection_eval_seconds": {
+        "previous": 58.947,
+        "current": 46.2581,
+        "delta": -12.6889
+      },
+      "news_eval_seconds": {
+        "previous": 72.8005,
+        "current": 257.4658,
+        "delta": 184.6653
+      },
+      "recommendation_eval_seconds": {
+        "previous": 178.1524,
+        "current": 203.1271,
+        "delta": 24.9747
+      },
+      "input_tokens": {
+        "previous": 5851.0,
+        "current": 5851.0,
+        "delta": 0.0
+      },
+      "output_tokens": {
+        "previous": 1378.0,
+        "current": 1378.0,
+        "delta": 0.0
+      },
+      "total_tokens": {
+        "previous": 7229.0,
+        "current": 7229.0,
+        "delta": 0.0
+      }
+    }
+  }
+}

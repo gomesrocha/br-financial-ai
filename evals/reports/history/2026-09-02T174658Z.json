@@ -1,0 +1,135 @@
+{
+  "generated_at": "2026-09-02T17:46:58.809441+00:00",
+  "tool_selection": {
+    "cases": 12,
+    "tool_name_accuracy": "1.0000",
+    "argument_accuracy": "1.0000",
+    "exact_call_accuracy": "1.0000"
+  },
+  "news_classification": {
+    "cases": 8,
+    "relevance_accuracy": "1.0000",
+    "materiality_accuracy": "0.8750",
+    "company_specific_accuracy": "1.0000",
+    "sentiment_agreement": "0.8750",
+    "category_agreement": "1.0000"
+  },
+  "recommendation": {
+    "cases": 9,
+    "stance_accuracy": "0.8889",
+    "factual_consistency": "1.0000",
+    "evidence_grounding": "1.0000",
+    "hallucination_count": 0,
+    "true_hallucination_count": 0,
+    "evaluator_false_positive_count": 1
+  },
+  "stability": {
+    "runs": 5,
+    "stance_distribution": {
+      "NEUTRAL": 5
+    },
+    "dominant_stance": "NEUTRAL",
+    "stance_stability_ratio": "1.0000",
+    "confidence_mean": "0.8000",
+    "confidence_range": "0.0"
+  },
+  "performance": {
+    "total_analysis_latency": 171.892,
+    "yahoo_quote_latency": 0.5487,
+    "yahoo_history_latency": 0.5217,
+    "news_classification_latency": 66.9141,
+    "context_build_latency": 67.9994,
+    "recommendation_latency": 103.8926
+  },
+  "llm_usage": {
+    "tool_selection": {
+      "input_tokens": 336,
+      "output_tokens": 43,
+      "total_tokens": 379,
+      "estimated_cost": null,
+      "currency": null,
+      "model": "llama3.1",
+      "provider": "ollama",
+      "available": true
+    },
+    "news_classification": {
+      "input_tokens": 432,
+      "output_tokens": 83,
+      "total_tokens": 515,
+      "estimated_cost": null,
+      "currency": null,
+      "model": "llama3.1",
+      "provider": "ollama",
+      "available": true
+    },
+    "recommendation": {
+      "input_tokens": 736,
+      "output_tokens": 260,
+      "total_tokens": 996,
+      "estimated_cost": null,
+      "currency": null,
+      "model": "llama3.1",
+      "provider": "ollama",
+      "available": true
+    },
+    "recommendation_prompt_characters": 1406,
+    "e2e_recommendation": {
+      "input_tokens": 1744,
+      "output_tokens": 417,
+      "total_tokens": 2161,
+      "estimated_cost": null,
+      "currency": null,
+      "model": "llama3.1",
+      "provider": "ollama",
+      "available": true
+    }
+  },
+  "e2e": {
+    "ticker": "PETR4",
+    "stance": "NEUTRAL",
+    "confidence": "0.8",
+    "limitations": [
+      "P/B not supported",
+      "EV/EBITDA not supported"
+    ],
+    "evidence_count": 10,
+    "total_latency_seconds": 227.7242,
+    "context_http_latency_seconds": 71.7088,
+    "analysis_http_latency_seconds": 156.0154,
+    "instrumented": {
+      "stance": "NEUTRAL",
+      "confidence": "0.8",
+      "factual_consistency": "1.0000",
+      "evidence_grounding": "1.0000",
+      "hallucination_count": 0,
+      "fabricated_evidence_count": 0,
+      "news_articles": 5,
+      "recommendation_prompt_characters": 5353
+    }
+  },
+  "run": {
+    "id": "2026-09-02T174658Z",
+    "timestamp": "2026-09-02T17:46:58Z",
+    "profile": "full",
+    "model_provider": "ollama",
+    "model_name": "llama3.1",
+    "git_commit": null,
+    "git_branch": null
+  },
+  "status": "PASS",
+  "gates": {
+    "passed": [
+      "exact tool-call accuracy 1.0 >= 0.95",
+      "news relevance accuracy 1.0 >= 0.9",
+      "company-specific accuracy 1.0 >= 0.9",
+      "stance accuracy 0.8889 >= 0.8",
+      "factual consistency 1.0 >= 0.95",
+      "evidence grounding 1.0 >= 1.0",
+      "true hallucinations 0.0 == 0.0"
+    ],
+    "failed": [],
+    "unmeasured": []
+  },
+  "warnings": [],
+  "comparison": null
+}

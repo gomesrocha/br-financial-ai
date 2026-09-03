@@ -1,21 +1,26 @@
 [project]
 name = "br-financial-ai"
 version = "0.1.0"
-description = "Add your description here"
+description = "AI Engineering study for Brazilian financial-market analysis"
 readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
 requires-python = ">=3.13"
 dependencies = [
     "alembic>=1.19.1",
     "fastapi>=0.141.1",
     "langchain>=1.3.16",
     "langchain-core>=1.6.0",
+    "langchain-ollama>=1.1.0",
     "langchain-postgres>=0.0.17",
     "pgvector>=0.3.6,<0.4",
     "psycopg[binary]>=3.3.4",
     "pydantic-settings>=2.15.0",
+    "pyyaml>=6.0.3",
     "sqlalchemy>=2.0.52",
     "sqlmodel>=0.0.39",
     "uvicorn[standard]>=0.52.4",
+    "yfinance>=1.7.0",
 ]
 
 [dependency-groups]
@@ -37,6 +42,13 @@ python_files = ["test_*.py"]
 python_functions = ["test_*"]
 addopts = "-ra"
 asyncio_mode = "strict"
+markers = [
+    "eval: external evaluation suite",
+    "slow: slow evaluation",
+    "external: requires network or local providers",
+    "ollama: requires local Ollama",
+    "yahoo: requires Yahoo Finance",
+]
 
 [tool.ruff]
 target-version = "py313"
@@ -51,3 +63,7 @@ select = [
     "B",
     "ASYNC",
 ]
+
+
+[project.scripts]
+br-financial-ai = "br_financial_ai.cli:main"
