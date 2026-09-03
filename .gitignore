@@ -56,7 +56,8 @@ evals/reports/history/*
 !evals/reports/history/2026-09-03T001742Z.json
 !evals/reports/history/2026-09-03T011616Z.json
 !evals/reports/history/2026-09-03T021334Z.json
-# Local/internal documentation
+
+
 PROMPT-*.md
 docs/internal/
 docs/notes/
